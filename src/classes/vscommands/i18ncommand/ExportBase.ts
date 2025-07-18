@@ -259,8 +259,9 @@ export default abstract class ExportBase extends ParserBearer {
 
 	private async _generateStringForI18NInsert(selectedText: string, I18nID: string, showPrompt = true) {
 		const shouldUserConfirmI18nId = workspace.getConfiguration("ui5.plugin").get("askUserToConfirmI18nId");
+		const shouldAddI18nAnnotation = workspace.getConfiguration("ui5.plugin").get("addI18nAnnotation");
 		let item;
-		if (shouldUserConfirmI18nId && showPrompt) {
+		if (shouldUserConfirmI18nId && showPrompt && shouldAddI18nAnnotation) {
 			const i18nIDs = [
 				{
 					label: "YMSG",
@@ -276,8 +277,11 @@ export default abstract class ExportBase extends ParserBearer {
 
 		const shouldAddTextLength = workspace.getConfiguration("ui5.plugin").get("addI18nTextLengthLimitation");
 		const textLength = shouldAddTextLength ? `,${selectedText.length}` : "";
-
-		const textToInsert = `\n#${item?.label || "YMSG"}${textLength}: ${I18nID}\n${I18nID} = ${selectedText}`;
+		let annotation = "";
+		if (shouldAddI18nAnnotation) {
+			annotation = `#${item?.label || "YMSG"}${textLength}: ${I18nID}\n`
+		}
+		const textToInsert = `\n${annotation}${I18nID} = ${selectedText}`;
 		return textToInsert;
 	}
 

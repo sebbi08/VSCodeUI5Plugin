@@ -214,6 +214,11 @@
 					"default": "PlantUML",
 					"description": "Which format should be used for UML diagram generation"
 				},
+				"ui5.plugin.addI18nAnnotation": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show the selection for the i18n annotation"
+				},
 				"ui5.plugin.addI18nTextLengthLimitation": {
 					"type": "boolean",
 					"default": true,
